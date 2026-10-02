@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111111">
+  <meta name="description" content="תפסו את לנון! משחק קטן ושובב בעברית, רוסית ואנגלית.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Catch Lennon! · תפסו את לנון!">
+  <meta property="og:description" content="Can you catch Lennon before he escapes again? משחק קצר ושובב בשלוש שפות.">
+  <meta property="og:image" content="og-preview.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Catch Lennon game preview">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Catch Lennon! · תפסו את לנון!">
+  <meta name="twitter:description" content="Can you catch Lennon before he escapes again?">
+  <meta name="twitter:image" content="og-preview.jpg">
+  <title>תפסו את לנון!</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23111'/%3E%3Ctext x='32' y='46' font-size='44' font-family='Arial' font-weight='900' text-anchor='middle' fill='white'%3EL%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="masthead">
+      <button id="home-button" class="brand" type="button" aria-label="לעמוד הפתיחה" onclick="window.handleLennonAction(event, 'home')">
+        <span class="brand-mark" aria-hidden="true"><img id="brand-photo" alt="" hidden><span id="brand-initial">L.</span></span>
+        <span class="brand-word" dir="ltr">LENNON<span class="brand-sub" data-i18n="brandSub">אמן הבריחות</span></span>
+      </button>
+      <nav class="header-tools" aria-label="הגדרות המשחק" id="tools">
+        <button id="sound-button" class="tool-button" type="button" aria-pressed="false" aria-label="הפעלת מוזיקה" onclick="window.handleLennonAction(event, 'sound')">
+          <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4Z"/><path class="sound-waves" d="M15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/><path class="sound-cross" d="m16 9 5 6m0-6-5 6"/></svg>
+          <span id="sound-label">שקט</span>
+        </button>
+        <button id="language-button" class="tool-button language-switch" type="button" aria-label="החלפת שפה" onclick="window.handleLennonAction(event, 'language')"><span id="language-short">HE</span><svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="10" cy="10" r="8"/><ellipse cx="10" cy="10" rx="3.3" ry="8"/><path d="M2 10h16"/></svg></button>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section id="screen-language" class="screen language-screen" aria-labelledby="language-title">
+        <div class="language-art" aria-hidden="true"><span class="little-stamp">LENNON'S GAME</span><div class="big-word">CATCH<br><span>LENNON.</span></div><span class="round-tag">TRY<br>ME!</span></div>
+        <h1 id="language-title" class="language-title" tabindex="-1"><span lang="he">בחרו שפה</span><span aria-hidden="true">/</span><span lang="ru">Выбери язык</span><span aria-hidden="true">/</span><span lang="en">Choose a language</span></h1>
+        <div class="language-options" dir="ltr">
+          <button class="language-option" type="button" data-language="he" lang="he" dir="rtl" onclick="window.handleLennonAction(event, 'select-language')"><span class="language-name">עברית</span><span class="language-code" aria-hidden="true">HE</span></button>
+          <button class="language-option" type="button" data-language="ru" lang="ru" onclick="window.handleLennonAction(event, 'select-language')"><span class="language-name">Русский</span><span class="language-code" aria-hidden="true">RU</span></button>
+          <button class="language-option" type="button" data-language="en" lang="en" onclick="window.handleLennonAction(event, 'select-language')"><span class="language-name">English</span><span class="language-code" aria-hidden="true">EN</span></button>
+        </div>
+        <p class="preview-note" data-i18n="previewNote">מהדורה ראשונה · תמונות מקוריות של לנון</p>
+      </section>
+
+      <section id="screen-intro" class="screen intro-screen" aria-labelledby="intro-title" hidden>
+        <div class="kicker" data-i18n="introKicker">כלב אחד. אפס כוונות להיתפס.</div>
+        <h1 id="intro-title" class="display-title" tabindex="-1" data-i18n="introTitle">תפסו אותי!!!!</h1>
+        <div class="portrait-stage">
+          <div class="portrait-ring" aria-hidden="true"></div>
+          <div class="portrait" id="intro-portrait"></div>
+          <span class="speech-label" data-i18n="introBubble">נראה אתכם.</span>
+        </div>
+        <button id="start-button" class="primary-button" type="button" data-i18n="start" onclick="window.handleLennonAction(event, 'start')">תפסו אותי!!!!</button>
+        <p class="subtext" data-i18n="instructions">מצאו את לנון בתמונה ולחצו עליו.</p>
+        <p class="preview-note" data-i18n="previewNote">מהדורה ראשונה · תמונות מקוריות של לנון</p>
+      </section>
+
+      <section id="screen-play" class="screen play-screen" aria-labelledby="play-title" hidden>
+        <div class="game-heading"><div><p class="kicker" data-i18n="onTheLoose">לנון שוב ברח</p><h1 id="play-title" class="play-title" tabindex="-1" data-i18n="findHim">איפה אני?</h1></div><div class="scoreboard"><div class="score"><span data-i18n="attempts">ניסיונות</span><strong id="attempt-count">00</strong></div><div class="score"><span data-i18n="time">זמן</span><strong id="elapsed-time" dir="ltr">00:00</strong></div></div></div>
+        <div id="arena" class="arena" aria-label="מצאו את לנון בתמונה">
+          <img id="scene-photo" class="scene-photo" alt="" draggable="false">
+          <div class="scene-shade" aria-hidden="true"></div>
+          <div class="location-label"><span class="location-dot" aria-hidden="true"></span><span id="scene-name"></span></div>
+          <div id="scene-loading" class="scene-loading" role="status"><span class="loader" aria-hidden="true"></span><span data-i18n="loading">לנון בוחר מקום להתחבא…</span></div>
+          <button id="dog-target" class="dog-target" type="button" aria-label="לתפוס את לנון" onclick="window.handleLennonAction(event, 'catch')" hidden><span class="target-art" id="target-art"></span></button>
+          <p id="game-toast" class="game-toast" role="status" aria-live="polite" aria-atomic="true"></p>
+        </div>
+        <div class="game-foot"><span data-i18n="playHint">לחצו על לנון. הוא כבר ימצא לאן לברוח.</span><span id="scene-credit" class="photo-credit"></span></div>
+        <p id="scene-error" class="scene-error" role="status" hidden></p>
+      </section>
+
+      <section id="screen-caught" class="screen caught-screen" aria-labelledby="caught-title" hidden>
+        <img id="fire-photo" class="fire-photo" alt="" draggable="false">
+        <div class="caught-content"><p class="kicker" data-i18n="caughtKicker">רגע… מה?!</p><h1 id="caught-title" class="display-title" tabindex="-1" data-i18n="caughtTitle">תפסתם אותי!</h1><div class="angry-portrait" id="angry-portrait"></div><p class="caught-quote" data-i18n="caughtQuote">אני לא כועס. אני ממש כועס.</p><div class="countdown-group"><span data-i18n="coolingDown">תנו לי להירגע רגע</span><strong id="countdown" aria-live="off">5</strong></div><p class="visually-hidden" data-i18n="countdownAnnouncement" role="status">בעוד חמש שניות נעבור למסך המשחק החוזר.</p></div>
+      </section>
+
+      <section id="screen-replay" class="screen replay-screen" aria-labelledby="replay-title" hidden>
+        <div class="kicker" data-i18n="replayKicker">טוב, הפעם הצלחתם.</div>
+        <div class="replay-portrait" id="replay-portrait"></div>
+        <h1 id="replay-title" class="display-title" tabindex="-1" data-i18n="replayTitle">נסה שוב?</h1>
+        <p class="result-summary" id="result-summary"></p>
+        <button id="replay-button" class="primary-button" type="button" data-i18n="replayButton" onclick="window.handleLennonAction(event, 'start')">עוד סיבוב!</button>
+        <p class="subtext" data-i18n="replayHint">מקום אחר. אותו לנון.</p>
+      </section>
+    </main>
+    <footer class="footer"><span data-i18n="footer">כלב טוב. קצת פחות ממושמע.</span><span class="footer-name" dir="ltr">LENNON © 2026</span></footer>
+    <details class="credits"><summary data-i18n="credits">קרדיטים לתמונות ולגופנים</summary><div id="credits-content"></div></details>
+  </div>
+  <noscript><p style="text-align:center;padding:2rem">יש להפעיל JavaScript כדי לשחק. / Enable JavaScript to play. / Включи JavaScript, чтобы играть.</p></noscript>
+  <script src="media.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
