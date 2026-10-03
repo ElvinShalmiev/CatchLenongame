@@ -42,6 +42,10 @@
   const state = { screen:'language', lang:'he', attempts:0, earlyEscapes:3, lastScene:-1, scene:null, sticker:-1, position:null, elapsed:0, lastTick:0, countdown:5000, active:false, lockedUntil:0, round:0, sound:false, taunt:-1 };
   let ticker = null, toastTimer = null, loadTimer = null, loadCancel = null;
   const text = key => COPY[state.lang][key];
+  const trackEvent = (name, params={}) => {
+    if (typeof window.gtag !== 'function') return;
+    window.gtag('event', name, { language:state.lang, ...params });
+  };
   const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
   function differentIndex(length, previous) { if (length < 2) return 0; const next = randomInt(0, length - 2); return next >= previous && previous >= 0 ? next + 1 : next; }
   function formatTime(ms) { const sec = Math.floor(ms / 1000); return `${String(Math.floor(sec / 60)).padStart(2,'0')}:${String(sec % 60).padStart(2,'0')}`; }
@@ -130,6 +134,7 @@
   function attemptCatch(event) {
     if(state.screen!=='play'||!state.active||performance.now()<state.lockedUntil||document.hidden)return;
     state.lockedUntil=performance.now()+210;state.attempts++;$('attempt-count').textContent=String(state.attempts).padStart(2,'0');
+    trackEvent('lennon_click',{attempt_number:state.attempts,scene:state.scene?.id||'unknown'});
     const chance=Math.min(.75,.10+Math.max(0,state.attempts-state.earlyEscapes-1)*.075);
     const caught=state.attempts>state.earlyEscapes && (state.attempts>=16 || Math.random()<chance);
     if(caught){capture();return;}
@@ -140,7 +145,7 @@
     if(state.screen==='play'&&state.active){state.elapsed+=delta;$('elapsed-time').textContent=formatTime(state.elapsed);}
     else if(state.screen==='caught'){state.countdown=Math.max(0,state.countdown-delta);$('countdown').textContent=String(Math.ceil(state.countdown/1000));if(state.countdown<=0)showReplay();}
   }
-  function capture() { tick();showScreen('caught');state.countdown=5000;$('countdown').textContent='5';state.lastTick=performance.now();ticker=setInterval(tick,60);audio.win(); }
+  function capture() { tick();trackEvent('lennon_caught',{attempts:state.attempts,duration_seconds:Math.max(1,Math.round(state.elapsed/1000)),scene:state.scene?.id||'unknown'});showScreen('caught');state.countdown=5000;$('countdown').textContent='5';state.lastTick=performance.now();ticker=setInterval(tick,60);audio.win(); }
   function showReplay() { $('result-summary').textContent=text('result')(state.attempts,Math.max(1,Math.round(state.elapsed/1000)));showScreen('replay'); }
   function renderCredits() {
     const container=$('credits-content');
@@ -149,8 +154,8 @@
 
   window.handleLennonAction = (event, action) => {
     const button = event.currentTarget;
-    if (action === 'select-language') { setLanguage(button.dataset.language); showScreen('intro'); return; }
-    if (action === 'start') { startRound(); return; }
+    if (action === 'select-language') { setLanguage(button.dataset.language); trackEvent('language_selected',{selected_language:state.lang}); showScreen('intro'); return; }
+    if (action === 'start') { const replay=state.screen==='replay';trackEvent(replay?'game_restart':'game_start',{round_number:state.round+1});startRound(); return; }
     if (action === 'catch') { attemptCatch(event); return; }
     if (action === 'home') { if (state.screen !== 'language') goHome(); return; }
     if (action === 'language') { showScreen('language'); return; }
