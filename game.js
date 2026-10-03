@@ -145,7 +145,7 @@
     if(state.screen==='play'&&state.active){state.elapsed+=delta;$('elapsed-time').textContent=formatTime(state.elapsed);}
     else if(state.screen==='caught'){state.countdown=Math.max(0,state.countdown-delta);$('countdown').textContent=String(Math.ceil(state.countdown/1000));if(state.countdown<=0)showReplay();}
   }
-  function capture() { tick();trackEvent('lennon_caught',{attempts:state.attempts,duration_seconds:Math.max(1,Math.round(state.elapsed/1000)),scene:state.scene?.id||'unknown'});showScreen('caught');state.countdown=5000;$('countdown').textContent='5';state.lastTick=performance.now();ticker=setInterval(tick,60);audio.win(); }
+  function capture() { tick();const result={attempts:state.attempts,durationSeconds:Math.max(1,Math.round(state.elapsed/1000)),language:state.lang,scene:state.scene?.id||'unknown'};trackEvent('lennon_caught',{attempts:result.attempts,duration_seconds:result.durationSeconds,scene:result.scene});window.dispatchEvent(new CustomEvent('lennon:caught',{detail:result}));showScreen('caught');state.countdown=5000;$('countdown').textContent='5';state.lastTick=performance.now();ticker=setInterval(tick,60);audio.win(); }
   function showReplay() { $('result-summary').textContent=text('result')(state.attempts,Math.max(1,Math.round(state.elapsed/1000)));showScreen('replay'); }
   function renderCredits() {
     const container=$('credits-content');
