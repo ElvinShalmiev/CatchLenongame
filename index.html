@@ -31,7 +31,7 @@
   </script>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23111'/%3E%3Ctext x='32' y='46' font-size='44' font-family='Arial' font-weight='900' text-anchor='middle' fill='white'%3EL%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="fonts.css?v=2">
-  <link rel="stylesheet" href="style.css?v=2">
+  <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
   <div class="app-shell">
@@ -90,7 +90,7 @@
 
       <section id="screen-caught" class="screen caught-screen" aria-labelledby="caught-title" hidden>
         <img id="fire-photo" class="fire-photo" alt="" draggable="false">
-        <div class="caught-content"><p class="kicker" data-i18n="caughtKicker">רגע… מה?!</p><h1 id="caught-title" class="display-title" tabindex="-1" data-i18n="caughtTitle">תפסתם אותי!</h1><div class="angry-portrait" id="angry-portrait"></div><p class="caught-quote" data-i18n="caughtQuote">אני לא כועס. אני ממש כועס.</p><div class="countdown-group"><span data-i18n="coolingDown">תנו לי להירגע רגע</span><strong id="countdown" aria-live="off">5</strong></div><p class="visually-hidden" data-i18n="countdownAnnouncement" role="status">בעוד חמש שניות נעבור למסך המשחק החוזר.</p></div>
+        <div class="caught-content"><p id="caught-kicker" class="kicker" data-i18n="caughtKicker">רגע… מה?!</p><h1 id="caught-title" class="display-title" tabindex="-1" data-i18n="caughtTitle">תפסתם אותי!</h1><div class="angry-portrait" id="angry-portrait"></div><p id="caught-quote" class="caught-quote" data-i18n="caughtQuote">אני לא כועס. אני ממש כועס.</p><div class="countdown-group"><span data-i18n="coolingDown">תנו לי להירגע רגע</span><strong id="countdown" aria-live="off">5</strong></div><p class="visually-hidden" data-i18n="countdownAnnouncement" role="status">בעוד חמש שניות נעבור למסך המשחק החוזר.</p></div>
       </section>
 
       <section id="screen-replay" class="screen replay-screen" aria-labelledby="replay-title" hidden>
@@ -107,7 +107,7 @@
   </div>
   <noscript><p style="text-align:center;padding:2rem">יש להפעיל JavaScript כדי לשחק. / Enable JavaScript to play. / Включи JavaScript, чтобы играть.</p></noscript>
   <script src="media.js?v=2"></script>
-  <script src="game.js?v=2"></script>
-  <script type="module" src="leaderboard.js?v=2"></script>
+  <script src="game.js?v=3"></script>
+  <script type="module" src="leaderboard.js?v=3"></script>
 </body>
 </html>

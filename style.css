@@ -194,6 +194,8 @@ html[lang=he] .play-title { font-size: 60px; }
 @media (forced-colors: active) { * { scrollbar-color: auto; } button { border: 2px solid ButtonText; } .placeholder-sticker, .scene-loading { forced-color-adjust: none; } }
 
 .leaderboard-trigger { position: fixed; right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom)); z-index: 40; border: 2px solid #111; border-radius: 999px; background: #fff; color: #111; padding: 11px 17px; font: 700 14px Rubik, sans-serif; box-shadow: 4px 4px 0 #111; cursor: pointer; }
+.secret-trigger { position: fixed; left: max(16px, env(safe-area-inset-left)); bottom: max(16px, env(safe-area-inset-bottom)); z-index: 40; display: flex; align-items: center; gap: 7px; border: 2px solid #111; border-radius: 999px; background: #111; color: #fff; padding: 10px 15px; font: 700 14px Rubik,sans-serif; box-shadow: 4px 4px 0 #aaa; }
+.secret-trigger.is-unlocked { animation: gift-pulse 1.15s ease-in-out infinite alternate; background: #fff; color: #111; box-shadow: 4px 4px 0 #111; }
 .leaderboard-trigger:hover { transform: translate(-1px,-1px); box-shadow: 6px 6px 0 #111; }
 .player-overlay { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 20px; background: rgba(17,17,17,.78); backdrop-filter: blur(8px); }
 .player-overlay[hidden] { display: none; }
@@ -217,4 +219,20 @@ html[lang=he] .play-title { font-size: 60px; }
 .leaderboard-score { white-space: nowrap; font-size: 13px; }
 .leaderboard-you { margin: 16px 0 0; border-top: 1px solid #ccc; padding-top: 14px; text-align: center; font-weight: 700; }
 .change-name { margin-top: 14px; border: 0; background: transparent; text-decoration: underline; cursor: pointer; font: inherit; }
+.secret-card { overflow: hidden; }
+.secret-gift { width: 82px; height: 82px; margin: -8px auto 18px; display: grid; place-items: center; border: 3px solid #111; border-radius: 29% 71% 36% 64% / 63% 31% 69% 37%; background: #111; color: #fff; font: 900 50px/1 Rubik,sans-serif; transform: rotate(-7deg); }
+.secret-gift.unlocked { background: #fff; color: #111; transform: rotate(7deg); }
+.secret-count { display: block; margin: 5px auto 22px; font: 900 clamp(36px,12vw,58px)/1 Rubik,sans-serif; letter-spacing: -3px; }
+.secret-close { min-width: 210px; }
+.setup-card { max-height: 92svh; overflow: auto; }
+.photo-picker { display: flex; justify-content: space-between; align-items: center; gap: 10px; border: 2px dashed #111; border-radius: 14px; padding: 14px 16px; cursor: pointer; text-align: left; font-weight: 800; }
+.photo-picker small { color: #666; font-size: 10px; font-weight: 500; }
+.secret-previews { display: flex; min-height: 0; justify-content: center; flex-wrap: wrap; gap: 8px; }
+.secret-previews img { width: 66px; height: 66px; object-fit: cover; border: 2px solid #111; border-radius: 38% 62% 45% 55% / 55% 38% 62% 45%; filter: grayscale(1); box-shadow: 3px 3px 0 #bbb; }
+.community-mark { width: 74px; height: 74px; margin: -4px auto 18px; display: grid; place-items: center; border: 3px solid #111; border-radius: 50%; font: 900 23px Rubik,sans-serif; }
+.community-link { display: inline-grid; place-items: center; text-decoration: none; }
+.community-link[aria-disabled="true"] { opacity: .55; pointer-events: none; }
+.community-later { display: block; margin-inline: auto; }
+.target-art img[alt]:not([alt=""]) { border: 4px solid #fff; border-radius: 38% 62% 45% 55% / 55% 38% 62% 45%; object-fit: cover; filter: grayscale(1) drop-shadow(1px 0 0 #111) drop-shadow(-1px 0 0 #111) drop-shadow(0 1px 0 #111) drop-shadow(0 -1px 0 #111) drop-shadow(0 3px 1px rgba(0,0,0,.3)); }
+@keyframes gift-pulse { to { transform: translateY(-4px) rotate(2deg); } }
 @media (max-width: 520px) { .player-card { padding: 23px 18px; box-shadow: 6px 6px 0 #111; } .leaderboard-trigger { padding: 10px 13px; } .leaderboard-score { font-size: 11px; } }

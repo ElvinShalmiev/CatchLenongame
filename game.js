@@ -39,7 +39,7 @@
   function pluralRu(n, words) { return words[n % 10 === 1 && n % 100 !== 11 ? 0 : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : 2]; }
   const $ = id => document.getElementById(id);
   const screens = ['language', 'intro', 'play', 'caught', 'replay'];
-  const state = { screen:'language', lang:'he', attempts:0, earlyEscapes:3, lastScene:-1, scene:null, sticker:-1, position:null, elapsed:0, lastTick:0, countdown:5000, active:false, lockedUntil:0, round:0, sound:false, taunt:-1 };
+  const state = { screen:'language', lang:'he', attempts:0, earlyEscapes:3, lastScene:-1, scene:null, sticker:-1, position:null, elapsed:0, lastTick:0, countdown:5000, active:false, lockedUntil:0, round:0, sound:false, taunt:-1, customRound:false, customName:'', customPhotos:[] };
   let ticker = null, toastTimer = null, loadTimer = null, loadCancel = null;
   const text = key => COPY[state.lang][key];
   const trackEvent = (name, params={}) => {
@@ -109,7 +109,7 @@
   }
   async function startRound() {
     showScreen('play');const token=state.round;state.attempts=0;state.earlyEscapes=randomInt(3,5);state.elapsed=0;state.position=null;state.sticker=-1;state.taunt=-1;state.lockedUntil=0;
-    state.scene=nextScene();$('scene-name').textContent=text('places')[state.scene.id]||state.scene.id;$('scene-credit').replaceChildren();
+    state.scene=nextScene();$('scene-name').textContent=state.customRound?state.customName:(text('places')[state.scene.id]||state.scene.id);$('scene-credit').replaceChildren();
     if(state.scene.author && state.scene.source){const a=document.createElement('a');a.textContent=`${text('photo')}: ${state.scene.author}`;a.href=state.scene.source;a.target='_blank';a.rel='noopener noreferrer';$('scene-credit').append(a);}
     $('attempt-count').textContent='00';$('elapsed-time').textContent='00:00';$('dog-target').hidden=true;$('scene-loading').hidden=false;$('scene-error').hidden=true;
     if(state.sound)audio.init();
@@ -117,6 +117,7 @@
     $('scene-loading').hidden=true;$('dog-target').hidden=false;state.active=true;updateSticker();placeDog();state.lastTick=performance.now();ticker=setInterval(tick,100);audio.start();
   }
   function updateSticker() {
+    if(state.customRound && state.customPhotos.length){state.sticker=differentIndex(state.customPhotos.length,state.sticker);makeSticker($('target-art'),state.customPhotos[state.sticker],state.sticker,state.customName);return;}
     const n=MEDIA.stickers.length;state.sticker=differentIndex(n||4,state.sticker);
     makeSticker($('target-art'),n?MEDIA.stickers[state.sticker]:'',state.sticker,'');
   }
@@ -138,6 +139,7 @@
     const chance=Math.min(.75,.10+Math.max(0,state.attempts-state.earlyEscapes-1)*.075);
     const caught=state.attempts>state.earlyEscapes && (state.attempts>=16 || Math.random()<chance);
     if(caught){capture();return;}
+    window.dispatchEvent(new CustomEvent('lennon:escaped',{detail:{attempts:state.attempts,language:state.lang}}));
     updateSticker();placeDog();notifyEscape();audio.escape();
   }
   function tick() {
@@ -145,7 +147,7 @@
     if(state.screen==='play'&&state.active){state.elapsed+=delta;$('elapsed-time').textContent=formatTime(state.elapsed);}
     else if(state.screen==='caught'){state.countdown=Math.max(0,state.countdown-delta);$('countdown').textContent=String(Math.ceil(state.countdown/1000));if(state.countdown<=0)showReplay();}
   }
-  function capture() { tick();const result={attempts:state.attempts,durationSeconds:Math.max(1,Math.round(state.elapsed/1000)),language:state.lang,scene:state.scene?.id||'unknown'};trackEvent('lennon_caught',{attempts:result.attempts,duration_seconds:result.durationSeconds,scene:result.scene});window.dispatchEvent(new CustomEvent('lennon:caught',{detail:result}));showScreen('caught');state.countdown=5000;$('countdown').textContent='5';state.lastTick=performance.now();ticker=setInterval(tick,60);audio.win(); }
+  function capture() { tick();const wasCustom=state.customRound;const result={attempts:state.attempts,durationSeconds:Math.max(1,Math.round(state.elapsed/1000)),language:state.lang,scene:state.scene?.id||'unknown',custom:wasCustom,customName:state.customName};trackEvent(wasCustom?'secret_character_caught':'lennon_caught',{attempts:result.attempts,duration_seconds:result.durationSeconds,scene:result.scene});window.dispatchEvent(new CustomEvent(wasCustom?'lennon:special-caught':'lennon:caught',{detail:result}));showScreen('caught');if(wasCustom){$('caught-kicker').textContent='SECRET COMPLETE';$('caught-title').textContent=`${state.customName} — caught!`;$('caught-quote').textContent='The surprise is complete. Lennon is coming back!';makeSticker($('angry-portrait'),state.customPhotos[state.sticker]||state.customPhotos[0],state.sticker,state.customName);state.customRound=false;}state.countdown=5000;$('countdown').textContent='5';state.lastTick=performance.now();ticker=setInterval(tick,60);audio.win(); }
   function showReplay() { $('result-summary').textContent=text('result')(state.attempts,Math.max(1,Math.round(state.elapsed/1000)));showScreen('replay'); }
   function renderCredits() {
     const container=$('credits-content');
@@ -155,7 +157,7 @@
   window.handleLennonAction = (event, action) => {
     const button = event.currentTarget;
     if (action === 'select-language') { setLanguage(button.dataset.language); trackEvent('language_selected',{selected_language:state.lang}); showScreen('intro'); return; }
-    if (action === 'start') { const replay=state.screen==='replay';trackEvent(replay?'game_restart':'game_start',{round_number:state.round+1});startRound(); return; }
+    if (action === 'start') { const replay=state.screen==='replay';if(!state.customRound)setLanguage(state.lang);trackEvent(replay?'game_restart':'game_start',{round_number:state.round+1,custom_round:state.customRound});startRound(); return; }
     if (action === 'catch') { attemptCatch(event); return; }
     if (action === 'home') { if (state.screen !== 'language') goHome(); return; }
     if (action === 'language') { showScreen('language'); return; }
@@ -164,6 +166,7 @@
       if(state.sound){audio.start();audio.tone(523,.08);}else audio.stop();
     }
   };
+  window.startLennonSecretRound = ({name,photos}) => { if(!name||!Array.isArray(photos)||!photos.length)return false;state.customName=String(name).slice(0,24);state.customPhotos=photos.slice(0,5);state.customRound=true;setLanguage(state.lang);startRound();return true; };
   document.addEventListener('visibilitychange',()=>{state.lastTick=performance.now();if(document.hidden){audio.stop();if(audio.ctx)audio.ctx.suspend().catch(()=>{});}else if(state.sound){audio.init();audio.start();}});
   window.addEventListener('pagehide',()=>{audio.stop();if(audio.ctx)audio.ctx.suspend().catch(()=>{});});
   window.addEventListener('pageshow',()=>{state.lastTick=performance.now();if(state.sound)audio.start();});
