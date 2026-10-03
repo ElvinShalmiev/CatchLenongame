@@ -1,44 +1,109 @@
-# CATCH LENNON — תפסו את לנון
+<div align="center">
 
-משחק דפדפן קטן, שחור־לבן ורספונסיבי, בעברית, רוסית ואנגלית. הכל מוכן להפעלה כאתר סטטי: אין שרת, אין התקנות ואין איסוף מידע.
+<img src="og-preview.jpg" alt="Catch Lennon!" width="100%">
 
-## איך לבדוק במחשב
+<br>
 
-אפשר לפתוח את `index.html` ישירות. לבדיקה זהה לאתר אמיתי, הריצו בתיקייה:
+# CATCH LENNON!
+
+### תפסו את לנון! · ПОЙМАЙ ЛЕННОНА!
+
+**One dog. Zero plans to get caught.**
+
+<br>
+
+[![PLAY NOW](https://img.shields.io/badge/▶_PLAY_NOW-111111?style=for-the-badge&logoColor=white)](https://elvinshalmiev.github.io/CatchLenongame/)
+
+![No installs](https://img.shields.io/badge/NO_INSTALLS-ffffff?style=flat-square&labelColor=111111&color=ffffff)
+![Mobile friendly](https://img.shields.io/badge/MOBILE_FRIENDLY-ffffff?style=flat-square&labelColor=111111&color=ffffff)
+![Three languages](https://img.shields.io/badge/HE_·_RU_·_EN-ffffff?style=flat-square&labelColor=111111&color=ffffff)
+
+</div>
+
+---
+
+## 🐕 The mission
+
+Lennon escaped. Again.
+
+Find him in the park, on a Florentin street, at the playground or on the sports field. Tap him before he runs somewhere else — but don't expect him to make it easy.
+
+> **Every tap changes his pose and hiding place.**  
+> Catching him is random, surprising and guaranteed before the game becomes endless.
+
+## ✦ How it plays
+
+| 01 | 02 | 03 | 04 |
+|:---:|:---:|:---:|:---:|
+| Choose a language | Find Lennon | Tap before he escapes | Catch him… eventually |
+
+When Lennon is finally caught, he gets **very angry**, the screen catches fire, and a five-second countdown begins before the rematch.
+
+## What’s inside
+
+- Real photos and seven Lennon stickers
+- Five changing real-world locations
+- Random hiding positions and growing catch probability
+- Hebrew, Russian and English
+- Original minimal game melody with mute control
+- Touch-friendly mobile layout
+- Keyboard and accessibility support
+- WhatsApp and social-sharing preview
+- No server, account, tracking or installation
+
+## Game logic
+
+```text
+START → Lennon escapes 3–5 times → catch chance increases
+      → guaranteed catch by attempt 16 → FIRE → 5…4…3…2…1 → REMATCH
+```
+
+## Built with
+
+`HTML` · `CSS` · `Vanilla JavaScript` · `Web Audio API`
+
+No framework. No dependencies. No data collection. Just Lennon.
+
+## Project map
+
+```text
+index.html      game screens and social metadata
+style.css       black-and-white responsive design
+game.js         game logic, languages, sound and timers
+media.js        Lennon photos, locations and credits
+*.jpeg / *.jpg  stickers, backgrounds and preview artwork
+*.ttf           local Rubik and Amatic SC fonts
+```
+
+## Run locally
+
+Open `index.html`, or serve the folder locally:
 
 ```bash
 python3 -m http.server 8080
 ```
 
-ואז פתחו `http://localhost:8080`.
+Then visit `http://localhost:8080`.
 
-## העלאה ל־GitHub Pages
+## Deploy
 
-1. צרו repository חדש ב־GitHub.
-2. העלו **את כל תוכן התיקייה הזאת** לשורש ה־repository. חשוב לשמור את תיקיית `assets`.
-3. בצעו Commit ל־branch בשם `main`.
-4. היכנסו ל־`Settings` → `Pages`.
-5. תחת `Build and deployment`, בחרו `Deploy from a branch`.
-6. בחרו `main` ו־`/(root)`, ואז `Save`.
-7. לאחר הפרסום המשחק יהיה בכתובת `https://USERNAME.github.io/REPOSITORY/`.
+This repository is ready for GitHub Pages:
 
-הקובץ `assets/og-preview.jpg` מחובר כ־Open Graph preview, ולכן בשיתוף הקישור ב־WhatsApp וברשתות חברתיות תופיע תמונת המשחק. אחרי פרסום ראשון ייתכן שייקח ל־WhatsApp כמה דקות לרענן את התצוגה המקדימה.
+1. Open **Settings → Pages**.
+2. Select **Deploy from a branch**.
+3. Choose **main** and **/(root)**.
+4. Save.
 
-## קבצים עיקריים
+## Credits
 
-- `index.html` — כל המסכים והמבנה.
-- `style.css` — העיצוב והריספונסיביות.
-- `game.js` — חוקי המשחק, השפות, המוזיקה והטיימרים.
-- `media.js` — חיבור התמונות והקרדיטים.
-- `assets/` — תמונות לנון, רקעי משחק וגופנים מקומיים.
-- `DESIGN.md` — כללי העיצוב להמשך עבודה.
+Lennon stars as himself. Location photography and font licenses are listed inside the game under **Photo & font credits**.
 
-## כללי המשחק
+---
 
-- בכל סיבוב נטען רקע אחר.
-- בשלושת עד חמשת הניסיונות הראשונים לנון תמיד בורח.
-- אחר כך הסיכוי לתפוס אותו עולה בכל לחיצה; בניסיון ה־16 הוא נתפס בוודאות.
-- בכל בריחה משתנים המיקום והסטיקר.
-- לאחר תפיסה מוצג מסך האש לחמש שניות ואז מוצע סיבוב נוסף.
+<div align="center">
 
-קרדיטים ורישיונות לתמונות ולגופנים מופיעים בתוך המשחק ונותרים זמינים בתחתית העמוד.
+### GOOD DOG. SELECTIVE LISTENER.
+
+Made with 🖤 for Lennon · Tel Aviv · 2026
+
+</div>
